@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 2rem;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #FAFAFA;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+  max-width: 700px;
+}
+
+.subtitle {
+  margin-top: 1.5rem;
+  font-size: 1.25rem;
+  color: #A1A1AA;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.buttonContainer {
+  margin-top: 3rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  background-color: #60A5FA;
+  color: #09090B;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.button:hover {
+  transform: scale(1.05);
+}
+
+.buttonSecondary {
+  background-color: transparent;
+  color: #E4E4E7;
+  border: 1px solid #3F3F46;
+}

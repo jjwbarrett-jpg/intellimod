@@ -1,0 +1,36 @@
+.section {
+  margin-bottom: 3rem;
+}
+
+.heading {
+  font-size: 2rem;
+  border-bottom: 1px solid #3F3F46;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.cardLink {
+  display: block;
+  padding: 1rem;
+  border: 1px solid #3F3F46;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: #E4E4E7;
+  background-color: #18181B;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.cardLink:hover {
+  background-color: #27272A;
+  transform: translateY(-2px);
+}
+
+.vCardLink {
+  color: #A1A1AA; /* A slightly dimmer color for AI-facing cards */
+}
