@@ -126,7 +126,13 @@ You are currently executing MPI Step 0 (Planning). Using the logic from Step 0, 
         const response = await result.response;
         const aiResponseText = response.text();
 
-        return NextResponse.json({ snippet: aiResponseText, usedPCard: selectedPCard.title });
+        // CHANGE: We are now sending back 'debugLog' which contains the full prompt
+        return NextResponse.json({ 
+            snippet: aiResponseText, 
+            usedPCard: selectedPCard.title,
+            triggeredCards: triggeredVCards.map(c => c.title), // Let's see which V-Cards triggered!
+            debugLog: finalPrompt 
+        });
 
     } catch (error) {
         console.error("Error in /api/generate:", error);

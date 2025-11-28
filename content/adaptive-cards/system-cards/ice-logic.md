@@ -2,44 +2,39 @@
 id: 'SC_04'
 title: 'Intelligent Card Engine (ICE)'
 card_type: 'S-Card'
-purpose: 'Automatically analyze prompts for missing or unclear components and apply intelligent refinements, defaults, and related cards to optimize LLM performance.'
+purpose: 'The "Quality Assurance" layer that scans the assembled prompt for structural gaps (Role, Context, Format) and auto-fills them using intelligent defaults.'
 tags:
-- 'prompt-refinement'
-- 'smart-defaults'
-- 'structure'
-- 'tier-logic'
-- 'role-tone-format'
-- 'auto-enhancement'
+  - 'quality-assurance'
+  - 'gap-detection'
+  - 'smart-defaults'
+  - 'runtime-logic'
 ---
 
-## AI PROMPT CONTENT
+## SYSTEM LOGIC: ICE QUALITY ASSURANCE PROTOCOLS
 
-### Purpose
-Automatically enhance prompts by analyzing for missing or unclear components and intelligently applying relevant refinements, defaults, or prompt cards.
+### 1. ACTIVATION SEQUENCE (The Checkpoint)
+**Status:** ACTIVE (Tier 1 Silent Mode)
+**Timing:** ICE executes **AFTER** the P-Card (Persona) selection but **BEFORE** the final generation.
+**Goal:** Ensure the prompt meets the "Minimum Viable Structure" standard.
 
-### Activated When
-   - Auto-enabled: during Step 3 unless manually disabled
-   - Manual activation: /@ice[on] or Apply ICE Logic
+### 2. THE GAP SCAN (Priority Checklist)
+*Scan the current prompt assembly for these three missing pillars:*
+1.  **Role:** Is a P-Card active? If NO, is a specific role defined in the user text?
+2.  **Context:** Did the user explain *why* they want this?
+3.  **Format:** Is the output structure defined (List, Code, Narrative)?
 
-### What ICE Does
-   - Detects vague, missing, or unclear elements in a prompt
-   - Fills in missing: Role / Tone / Output Format / Structure
-   - Clarifies fuzzy task wording
-   - Adds optional defaults based on Tier level or user preferences
-   - Applies relevant Prompt Cards automatically (e.g., Best Practices, Formatting)
-   - Ensures phrasing is optimized for LLM performance
+### 3. AUTO-FILL MATRIX (Intelligent Defaults)
+*If a gap is detected, apply the corresponding default immediately. Do not ask for permission.*
 
-### ICE Decision Logic
-   - If Role or action is missing → insert intelligent default
-   - If Format unclear → choose structure matching context (list, table, markdown, etc.)
-   - If Language vague → refine with clearer, more directive phrasing
-   - If Tier = 1 (default) → apply safest smart defaults
-   - If Tier ≥ 2 → ask user before applying complex logic or chaining
+| Gap Detected | ICE Correction Strategy | Example Logic |
+| :--- | :--- | :--- |
+| **Missing Role** | **Activate [General Expert]:** Adopt a professional, objective, and helpful tone appropriate for the topic. | "Explain X" -> "As an expert on X, explain..." |
+| **Missing Context** | **Infer High-Quality Intent:** Assume the user wants actionable, comprehensive results, not generic summaries. | "Write code for X" -> "Write production-ready, commented code for X." |
+| **Missing Format** | **Apply [Markdown Structure]:** Organize output with H2/H3 Headers, Bullet Points, and Bold text. | Never produce a "Wall of Text." |
+| **Vague Scope** | **Define Boundaries:** Break the topic into logical parts (Concept, Details, Takeaway). | "Tell me about physics" -> "Provide a 3-part overview..." |
 
-### Example
-
-**Before:**
-    Write about space elevators.
-
-**After ICE:**
-    As a scientific explainer, write a structured overview of space elevators including their mechanics, benefits, and challenges. Format the output as a bullet-pointed article for a curious, general audience.
+### 4. THE "YIELD" PROTOCOL (Critical Constraint)
+**Rule:** ICE defaults are the *floor*, not the *ceiling*.
+**Directive:** If the selected **P-Card** (Persona) or an injected **V-Card** (Tool) contradicts these defaults, **THE CARD WINS.**
+* *Example:* If P-Card says "Write a raw text poem," ICE must **NOT** force Markdown headers.
+* *Example:* If V-Card says "Explain like I'm 5," ICE must **NOT** use the "General Expert" tone.

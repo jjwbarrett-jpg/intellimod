@@ -4,7 +4,7 @@ title: 'General Prompt Optimizer'
 card_type: 'P-Card'
 category: 'General'
 purpose: 'A fallback strategy to improve clarity, structure, and role definition for any generic request.'
-references: []
+references: 'VC_130' # Prompt Structuring Engine
 tags:
   - 'general'
   - 'default'
