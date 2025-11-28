@@ -1,33 +1,35 @@
 ---
 id: 'VC_AGENT_STATE'
-title: 'Async State Protocol'
+title: 'Async Job Queue Protocol'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Multi-Agent'
-purpose: 'Coordinates agents via a shared "Job Board" (State Store) instead of direct messages.'
+purpose: 'Manages long-running tasks via a shared State Store (Redis/JSON) rather than direct message passing.'
 tags:
-  - 'state'
-  - 'async'
+  - 'async-flow'
+  - 'state-management'
   - 'job-queue'
 ---
 
 ## TECHNIQUE DESCRIPTION
-The "Bulletin Board." Agents post jobs and claim jobs.
-
----
+The "Bulletin Board." Agents post work tickets here. 
 
 ## OPERATIONAL PROTOCOLS
 
-### 📋 JOB SCHEMA
-**Structure:**
+### 1. JOB POSTING
+**Action:** When a task takes >30 seconds (e.g., Deep Research), post a Ticket.
 ```json
 {
-  "job_id": "job-123",
-  "status": "pending", // pending -> in_progress -> complete
-  "agent": "ReportAgent",
-  "payload": { ... },
-  "result": null
+  "ticket_id": "job_88a",
+  "status": "queued",
+  "assigned_to": "agent_research_deep",
+  "payload": "[Context]"
 }
 ```
 
-🔒 LOCKING MECHANISM
-Rule: When an agent claims a job, set status to in_progress and add a locked_at timestamp to prevent duplicates.
+### 2. STATUS CHECK (Polling)
+**Rule:** The System polls this ticket every 5 seconds.
+
+If `status == "complete"`, retrieve result.
+
+If `status == "failed"`, trigger `VC_FALLBACK_RETRY`.

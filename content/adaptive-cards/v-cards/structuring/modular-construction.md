@@ -1,29 +1,29 @@
 ---
-id: 'VC_STRUCT_MODULAR'
-title: 'Modular Assembly Logic'
+id: 'VC_STRUCT_TEMPLATE'
+title: 'Modular Prompt Assembly Logic'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Structuring'
-purpose: 'Defines how to stitch partial prompt templates together.'
+purpose: 'Defines the standard architecture for constructing high-fidelity prompts (System -> Context -> Task).'
 tags:
-  - 'templates'
+  - 'prompt-engineering'
+  - 'meta-prompting'
   - 'assembly'
-  - 'dev-tools'
 ---
 
 ## TECHNIQUE DESCRIPTION
-The "Lego Instructions" for prompt building.
-
----
+The "Lego Instructions." Use this card when asking the AI to write a prompt for another agent.
 
 ## OPERATIONAL PROTOCOLS
 
-### 🏗️ ASSEMBLY ORDER
-**Rule:** Construct the final prompt in this strict order:
-1.  **System Role:** (Who you are)
-2.  **Context:** (Background info)
-3.  **Constraints:** (What not to do)
-4.  **Task:** (What to do)
-5.  **Output Format:** (How to look)
+### 1. THE ASSEMBLY ORDER
+**Rule:** Construct prompts in this vertical stack:
+1.  **IDENTITY:** (System Role / Persona)
+2.  **CONTEXT:** (Background / XML Data)
+3.  **PROTOCOL:** (Operational Rules / Constraints)
+4.  **TASK:** (The Immediate Instruction)
+5.  **OUTPUT:** (Format Requirements)
 
-### 🧩 PARTIAL RESOLUTION
-**Directive:** If a `{placeholder}` is missing data, replace it with a safe default or [EMPTY] tag. Do not leave raw curly braces `{{ }}` in the final prompt.
+### 2. VARIABLE HANDLING
+**Directive:** When writing templates, use `{{handlebars}}` syntax for variables.
+* **Safety:** If a variable is missing, default to `[UNSPECIFIED]` rather than breaking the prompt.

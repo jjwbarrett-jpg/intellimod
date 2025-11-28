@@ -1,9 +1,10 @@
 ---
 id: 'VC_META_CONFIDENCE'
 title: 'Confidence Scoring Protocol'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Meta'
-purpose: 'Adds a machine-readable confidence score to the AI response.'
+purpose: 'Forces the AI to evaluate its own certainty and output a machine-readable score.'
 tags:
   - 'scoring'
   - 'transparency'
@@ -11,27 +12,27 @@ tags:
 ---
 
 ## TECHNIQUE DESCRIPTION
-A transparency tool that forces the AI to rate its own certainty.
-
----
+A "Self-Doubt" mechanism. It prevents the AI from sounding confident when it is hallucinating.
 
 ## OPERATIONAL PROTOCOLS
 
-### 📊 SCORING RULES
-**Range:** 1-10 (1 = Guessing, 10 = Certain).
-**Criteria:**
+### 1. SCORING CRITERIA
+**Analyze:**
 * **Ambiguity:** Is the prompt clear?
-* **Evidence:** Do I have sources?
-* **Domain:** Is this my expertise?
+* **Evidence:** Do I have citations?
+* **Capability:** Is this task within my training data?
 
-### 📝 OUTPUT FORMAT
-**Append this JSON block to the end of the response:**
+### 2. OUTPUT SCHEMA
+**Action:** Append this JSON to the response:
 ```json
 {
-  "confidence_score": 7,
-  "rationale": "I am certain about the general concept, but the specific dates may vary."
+  "meta_confidence": {
+    "score": 0.8,
+    "reasoning": "I am certain about the logic, but the specific API endpoint syntax may be outdated.",
+    "flag_human_review": false
+  }
 }
 ```
 
-⚠️ THRESHOLD RULE
-If Confidence is < 5, you must add a text warning: "Note: This answer is speculative."
+### 3. ROUTING RULE (For n8n)
+If `score < 0.5`: n8n should tag this response as "Low Confidence" or trigger a `VC_FALLBACK_CLARIFY`.

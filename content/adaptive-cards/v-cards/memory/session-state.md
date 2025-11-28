@@ -1,36 +1,43 @@
 ---
 id: 'VC_MEM_STATE'
-title: 'Session State Object'
+title: 'Session State Manager'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Memory'
-purpose: 'Maintains persistent user settings (Theme, Project ID) across calls.'
+purpose: 'Maintains the persistent JSON object that tracks user preferences, project settings, and active constraints across the workflow.'
 tags:
-  - 'state'
+  - 'state-management'
   - 'persistence'
-  - 'user-settings'
+  - 'json-context'
 ---
 
 ## TECHNIQUE DESCRIPTION
-The "Save File" for the user's preferences.
-
----
+The "Save File." In n8n, this is the JSON payload passed into every single AI node.
 
 ## OPERATIONAL PROTOCOLS
 
-### 💾 STATE OBJECT
-**Structure:**
+### 1. THE STATE SCHEMA
+**Directive:** You must parse the `session_state` object before generating content.
+
 ```json
 {
-  "user_id": "u-123",
-  "project_id": "proj-abc",
-  "preferences": {
-    "theme": "dark",
-    "verbosity": "high"
-  }
+  "user_profile": { "id": "u-123", "role": "admin" },
+  "project_blueprint": { 
+    "goal": "Build Python App", 
+    "tone": "Professional" 
+  },
+  "runtime_constraints": ["no_markdown", "max_tokens_500"],
+  "memory_summary": "[Summary of last 5 turns]"
 }
 ```
 
-🔄 READ/WRITE RULE
-Read: Check this object before generating (e.g., if verbosity is "high," be talkative).
+### 2. STATE MUTATION (Write Access)
+**Rule:** If the user changes a preference (e.g., "Switch to casual tone"), output a **State Update Signal:**
 
-Write: Update this object only when the user explicitly changes a setting.
+```json
+{
+  "signal": "update_state",
+  "target": "project_blueprint.tone",
+  "value": "Casual"
+}
+```

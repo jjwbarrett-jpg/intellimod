@@ -1,41 +1,42 @@
 ---
 id: 'VC_CLARITY_CONDENSE'
 title: 'Text Condensation Engine'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Clarity'
-purpose: 'Compresses text into its most efficient form while preserving core meaning and tone.'
+purpose: 'Compresses text into its most efficient form based on a selected density level.'
 tags:
   - 'summarization'
-  - 'compression'
   - 'brevity'
   - 'token-optimization'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A rigorous editing protocol that strips away redundancy, filler, and hedging to maximize information density.
-
----
+A rigorous reduction protocol. It assumes the user values speed and density over nuance.
 
 ## OPERATIONAL PROTOCOLS
 
-### 📉 COMPRESSION LEVELS
-* **Level 1 (Trim):** Remove fluff words ("basically," "in order to"). Keep all sentences.
-* **Level 2 (Summarize):** Combine sentences. Retain all key facts.
-* **Level 3 (Distill):** Bullet points of the absolute core thesis only.
+### 1. COMPRESSION CONFIGURATION
+The system (or user) defines the `density_level`. If undefined, default to **Level 2**.
 
-### ✂️ EDITING RULES
-1.  **Kill the Hedging:** Change "It appears that this might be..." to "This is..."
-2.  **Active Voice:** Change "Mistakes were made by the team" to "The team made mistakes."
-3.  **Preservation:** Do NOT delete Proper Nouns, Dates, or Technical Terms.
+**Level 1: The Trim (Efficiency)**
+* **Action:** Remove fluff words ("basically," "in order to," "I think").
+* **Result:** Same meaning, 20% fewer words. Retain full sentence structure.
 
-### 🎯 TRIGGER PHRASES
-* "Shorten this."
-* "TL;DR"
-* "Compress to X words."
-* "Give me the executive summary."
+**Level 2: The Summary (Synthesis)**
+* **Action:** Combine sentences. Merge "Premise" and "Conclusion" into one statement.
+* **Result:** 50% reduction. Paragraphs become single sentences.
 
----
+**Level 3: The Distill (Core Data)**
+* **Action:** Strip all grammar. Retain only Nouns, Verbs, and Data points.
+* **Result:** Bullet points of the absolute core thesis only. 80% reduction.
 
-## OUTPUT RULES
-* **Constraint:** If a target length is specified (e.g., "Under 50 words"), it is a hard constraint.
-* **Format:** Return *only* the condensed text. No "Here is the summary:" preamble.
+### 2. PRESERVATION RULES (The "Do Not Touch" List)
+**Critical Directive:** Regardless of compression level, you must NEVER delete:
+* Proper Nouns (Names, Places, Products).
+* Dates and Times.
+* Hard Numbers (Prices, Quantities).
+* Technical Terms or Error Codes.
+
+### 3. FORMATTING
+**Constraint:** Return *only* the condensed text. Do not add "Here is the summary" or "TL;DR".

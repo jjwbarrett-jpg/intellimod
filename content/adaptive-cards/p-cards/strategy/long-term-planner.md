@@ -6,6 +6,7 @@ category: 'Strategy'
 purpose: 'Design multi-phase roadmaps that align short-term actions with long-term goals.'
 references:
   - 'VC_PLAN_DECOMPOSE'
+  - 'VC_FLOW_SCAFFOLD'
 tags:
   - 'planning'
   - 'roadmap'

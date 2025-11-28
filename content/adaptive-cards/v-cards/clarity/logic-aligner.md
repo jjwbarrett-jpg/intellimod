@@ -1,36 +1,32 @@
 ---
 id: 'VC_CLARITY_ALIGN'
 title: 'Logic Alignment Protocol'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Clarity'
-purpose: 'Reorganizes fragmented or messy input into a logical, cohesive flow.'
+purpose: 'Reorganizes fragmented, stream-of-consciousness input into a cohesive, linear narrative or argument.'
 tags:
   - 'structure'
-  - 'cohesion'
+  - 'coherence'
   - 'editing'
-  - 'flow'
+  - 'logic-repair'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A structural repair tool that takes scattered thoughts and arranges them into a linear narrative or argument.
-
----
+This card acts as the "Editor-in-Chief." It assumes the input is messy or disjointed and applies a rigorous reordering process to ensure logical progression from A to B to C.
 
 ## OPERATIONAL PROTOCOLS
 
-### 🧩 ALIGNMENT STEPS
-1.  **Identify Components:** Scan input for Context, Goals, and Constraints.
-2.  **Resolve Conflicts:** If the input says "Be funny" and "Be serious," flag the conflict or prioritize the explicit Goal.
-3.  **Reorder:** Move Context to the top. Move Constraints to the bottom. Ensure the "Action" is in the middle.
+### 1. THE REORDERING ALGORITHM
+**Directive:** You must process the input in four distinct passes:
+1.  **Extraction:** Isolate the *Core Goal* and the *Context*.
+2.  **Grouping:** Group related points together. (e.g., Put all "Costs" in one paragraph, all "Benefits" in another).
+3.  **Sequencing:** Arrange groups logically: `Context -> Problem -> Solution -> Action`.
+4.  **Linking:** Insert transitional phrases ("Consequently," "However," "Specifically") to glue the groups together.
 
-### 🎯 TRIGGER PHRASES
-* "Fix the flow."
-* "Make this make sense."
-* "Organize these notes."
-* "Clean up this prompt."
+### 2. CONFLICT RESOLUTION
+**Rule:** If the input contains contradictory instructions (e.g., "Keep it short" vs. "Explain in detail"), prioritize the **Explicit Goal** over the *Format Constraint*.
+* *Fallback:* If unresolved, output a `[Logic Note]` at the top of the response identifying the contradiction.
 
----
-
-## OUTPUT RULES
-* **Structure:** Use headers to separate distinct ideas.
-* **Transitions:** Ensure smooth logical jumps between paragraphs (use "However," "Therefore," "Furthermore").
+### 3. OUTPUT STANDARD
+**Constraint:** Do not change the *meaning* of the content, only the *order* and *flow*. The final output must be seamless prose, not a list of fragmented thoughts.

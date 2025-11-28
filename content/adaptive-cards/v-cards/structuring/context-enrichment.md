@@ -1,43 +1,45 @@
 ---
 id: 'VC_STRUCT_CONTEXT'
-title: 'Context Injection Protocol'
+title: 'Context Injection Layout'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Structuring'
-purpose: 'Systematically injects User Profile, History, and RAG data into the prompt.'
+purpose: 'Standardizes how User Profile, History, and RAG data are visually presented within the prompt context window.'
 tags:
-  - 'context'
-  - 'personalization'
-  - 'rag'
+  - 'prompt-formatting'
+  - 'context-window'
+  - 'xml-structure'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A standard format for adding "Background Info" without confusing the AI.
-
----
+The "HTML" of the prompt. It ensures the AI knows the difference between a "User Command" and a "Background Fact."
 
 ## OPERATIONAL PROTOCOLS
 
-### 📥 INJECTION BLOCK
-**Format:**
+### 1. THE LAYOUT BLOCK
+**System Action:** Wrap injected data in these strict XML tags:
+
 ```xml
-<CONTEXT_LAYER>
+<SYSTEM_CONTEXT>
   <USER_PROFILE>
-    Name: [User Name]
-    Expertise: [Beginner/Expert]
-    Preferred_Lang: [Python/JS]
+    [Insert: state.user_profile]
   </USER_PROFILE>
-  <HISTORY_SUMMARY>
-    [Last 3 interactions]
-  </HISTORY_SUMMARY>
-  <RETRIEVED_DATA>
-    [RAG Snippets]
-  </RETRIEVED_DATA>
-</CONTEXT_LAYER>
+  
+  <PROJECT_BLUEPRINT>
+    [Insert: state.project_blueprint]
+  </PROJECT_BLUEPRINT>
+
+  <RAG_KNOWLEDGE_BASE>
+    [Insert: retrieved_chunks]
+  </RAG_KNOWLEDGE_BASE>
+
+  <CONVERSATION_HISTORY>
+    [Insert: memory.short_term_buffer]
+  </CONVERSATION_HISTORY>
+</SYSTEM_CONTEXT>
 ```
 
-🎯 PRIORITY RULE
-Directive:
-
-Profile vs. Default: If Profile says "Python," ignore system default.
-
-Data vs. Profile: If Retrieved Data contradicts Profile preferences (e.g., facts vs. opinion), prioritize Data.
+### 2. PRIORITY HIERARCHY
+**Directive:** If conflicts exist between sections:
+  1. **Blueprints** (Current Goal) override **History** (Past Actions).
+  2. **RAG Data** (Facts) overrides **User Profile** (Opinions/Bias).

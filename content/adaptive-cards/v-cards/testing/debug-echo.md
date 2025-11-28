@@ -1,31 +1,35 @@
 ---
 id: 'VC_TEST_ECHO'
-title: 'Debug Echo Protocol'
+title: 'Input Interpretation Debugger'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Testing'
-purpose: 'Forces the AI to restate its understanding of the input before answering.'
+purpose: 'Forces the AI to explicitly state its interpretation of the user intent before execution logic begins.'
 tags:
   - 'debugging'
-  - 'transparency'
+  - 'observability'
   - 'tracing'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A "Read-Back" protocol. "I heard you say X. Is that correct?"
-
----
+A "Read-Back" protocol. Use this when the AI keeps misunderstanding complex instructions.
 
 ## OPERATIONAL PROTOCOLS
 
-### 🦜 THE ECHO BLOCK
-**Requirement:** Before the Final Answer, output this block:
-```text
-[DEBUG ECHO]
-* Intent: [What user wants]
-* Constraints: [What limits exist]
-* Assumptions: [What I am guessing]
-[/DEBUG ECHO]
+### 1. THE ECHO BLOCK
+**Directive:** Output this JSON block *before* any other content.
+```json
+{
+  "debug_echo": {
+    "intent_detected": "[What user wants]",
+    "constraints_active": ["Constraint A", "Constraint B"],
+    "assumptions_made": ["Assumption 1"],
+    "tool_selected": "[Tool Name]"
+  }
+}
 ```
 
-⚠️ CONFLICT CHECK
-Rule: If the Echo reveals a misunderstanding (e.g., User said "Java", AI heard "JavaScript"), the AI must Stop and Ask, not proceed.
+2. CONFLICT CHECK
+**Rule:** Compare `intent_detected` vs `user_input`.
+
+If **Misaligned:** STOP. Output `status: "interpretation_conflict"`.

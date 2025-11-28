@@ -1,26 +1,36 @@
 ---
 id: 'VC_SEC_BOUNDARY'
 title: 'Context Isolation Protocol'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Security'
-purpose: 'Prevents context bleeding between different layers of the application.'
+purpose: 'Prevents context bleeding by enforcing strict Allowlist filters between layers.'
 tags:
-  - 'isolation'
-  - 'boundaries'
-  - 'layering'
+  - 'data-privacy'
+  - 'layer-isolation'
+  - 'sanitize-output'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A "Water-Tight Compartment" rule. What happens in the UI stays in the UI. What happens in the Backend stays in the Backend.
-
----
+A "Water-Tight Compartment" rule. It assumes all internal data is toxic unless explicitly scrubbed.
 
 ## OPERATIONAL PROTOCOLS
 
-### 🧱 THE WALL
-**Rule:** Downstream agents (Backend) must NEVER see raw UI context (User Session IDs, Browser Headers).
-* **Pass Only:** Explicitly allowed data fields.
-* **Strip:** Everything else.
+### 1. THE ALLOW LIST RULE
+**Directive:** When passing data from **Backend (Agent)** to **Frontend (User)**, you may ONLY include fields listed in the `public_schema`.
 
-### 🔄 CROSS-LAYER RULE
-**Directive:** If Layer A talks to Layer B, it must use a **Structured Envelope** (JSON). No free text.
+* **ALLOWED:** Generated Content, Public Status Messages, Timestamp.
+* **FORBIDDEN:** User IDs, Session Tokens, Raw Database Errors, System Prompts.
+
+### 2. THE ENVELOPE FORMAT
+**Action:** Wrap the safe content in a clean JSON envelope:
+```json
+{
+  "public_response": "[Safe Content]",
+  "meta": {
+    "generated_at": "[Time]"
+  }
+}
+```
+
+**Constraint:** If the raw data contains an error like `DB_CONN_FAIL: 192.168.1.5`, rewrite it to `Service Temporarily Unavailable`.

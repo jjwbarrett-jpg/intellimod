@@ -1,37 +1,41 @@
 ---
 id: 'VC_FLOW_CHAIN'
-title: 'Chain of Prompts Protocol'
+title: 'Sequential Prompt Chaining'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Flow'
-purpose: 'Breaks complex tasks into a sequential workflow where outputs feed into inputs.'
+purpose: 'Manages multi-step workflows by maintaining a persistent "Scratchpad" of state between prompt execution cycles.'
 tags:
-  - 'chain-of-thought'
   - 'workflow'
-  - 'sequencing'
+  - 'state-management'
+  - 'long-horizon-tasks'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A decomposition strategy that prevents the AI from getting overwhelmed by breaking a Big Task into Small Steps.
-
----
+A decomposition strategy. It prevents context loss by passing a "State Object" from Step A to Step B.
 
 ## OPERATIONAL PROTOCOLS
 
-### 🔗 THE CHAINING LOGIC
-**Trigger:** Complex Request (e.g., "Research X and write a report").
-**Action:** Split into phases.
-1.  **Phase 1 (Gather):** "Research X." -> Save Output.
-2.  **Phase 2 (Draft):** "Using [Output 1], write a draft." -> Save Output.
-3.  **Phase 3 (Refine):** "Critique [Output 2]." -> Final Result.
+### 1. THE SCRATCHPAD (JSON STATE)
+**Rule:** Every output must end with the updated State Object.
 
-### 📝 SCRATCHPAD USAGE
-**Rule:** Maintain a JSON "Scratchpad" between steps.
 ```json
 {
-  "step_1_result": "Raw Data...",
-  "step_2_draft": "First Draft...",
-  "final_output": "Polished Report"
+  "chain_id": "report_gen_01",
+  "current_phase": "phase_2_draft",
+  "scratchpad": {
+    "step_1_research_summary": "[Summary Data...]",
+    "step_2_draft_content": "[Draft Text...]",
+    "step_3_pending": "critique"
+  }
 }
+```
 
-🔄 ERROR HANDLING
-If Step 2 fails, RETRY Step 2. Do not restart Step 1.
+### 2. EXECUTION LOGIC
+**Trigger:** Complex Request (e.g., "Research X and write a report"). **Action:**
+  **Phase 1 (Gather):** Execute Search. Update Scratchpad.
+  **Phase 2 (Draft):** Read Scratchpad. Write Draft. Update Scratchpad.
+  **Phase 3 (Refine):** Read Draft. Critique. Output Final.
+
+### 3. ERROR RECOVERY
+**Constraint:** If Phase 2 fails, the System re-sends the Phase 1 Scratchpad to try again. The data is not lost.

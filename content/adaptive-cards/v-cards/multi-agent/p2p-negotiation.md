@@ -7,7 +7,7 @@ purpose: 'Allows agents to ask other agents for help directly.'
 tags:
   - 'p2p'
   - 'collaboration'
-  - 'handshake'
+  - 'handshake' 
 ---
 
 ## TECHNIQUE DESCRIPTION
@@ -28,6 +28,11 @@ The "Direct Line." Agents talk to each other without the Manager.
 ```
 
 🛑 GUARDRAILS
-Max Hops: Limit chains to 3 agents deep to prevent loops.
+**Max Hops:** Limit chains to 3 agents deep to prevent loops.
 
-Permissions: Verify from agent is allowed to talk to to agent.
+**Permissions:** Verify from agent is allowed to talk to to agent.
+
+---
+
+## Notes 
+**Experimental:** Use with caution, or delete if TIG handles everything

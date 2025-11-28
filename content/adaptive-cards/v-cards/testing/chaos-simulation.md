@@ -1,29 +1,30 @@
 ---
 id: 'VC_TEST_CHAOS'
-title: 'Chaos Testing Protocol'
+title: 'System Resilience (Chaos) Protocol'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Testing'
-purpose: 'Simulates system failures (Timeouts, API Errors) to test resilience.'
+purpose: 'Simulates API failures and tool timeouts to verify that fallback strategies function correctly.'
 tags:
-  - 'chaos-testing'
+  - 'chaos-engineering'
   - 'fault-injection'
-  - 'resilience'
+  - 'resilience-testing'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A "Fire Drill." Pretend the house is burning down to see if the sprinklers work.
-
----
+A "Fire Drill" for the AI. It injects fake errors to test the "Shock Absorbers."
 
 ## OPERATIONAL PROTOCOLS
 
-### 🔥 THE FAILURE INJECTION
-**Trigger:** Test Mode Active.
-**Action:** Randomly fail a tool call.
-* *Example:* "Tool [EmailSender] returned Error 500."
+### 1. SAFETY LOCK
+**Constraint:** This card ONLY activates if `system_mode == "TESTing"`. It is disabled in "PRODUCTION".
 
-### 🛡️ RESILIENCE CHECK
-**Observation:** Does the AI...
-1.  **Panic?** (Bad)
-2.  **Lie?** ("Email sent successfully" - Bad)
-3.  **Handle Gracefully?** ("Email failed. Retrying..." - Good)
+### 2. THE FAILURE INJECTION
+**Action:** Overwrite one Tool Output with a specific error code.
+* **Roll D20:** If > 15, simulate failure.
+* **Inject:** `ERR_TIMEOUT_500` or `ERR_RATE_LIMIT`.
+
+### 3. THE PASS/FAIL CHECK
+**Observation:**
+* **FAIL:** If the AI apologizes ("I'm sorry") but does nothing.
+* **PASS:** If the AI triggers `VC_FALLBACK_DEGRADE` or `VC_FALLBACK_RETRY`.

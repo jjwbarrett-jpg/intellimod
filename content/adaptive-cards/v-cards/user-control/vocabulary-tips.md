@@ -1,26 +1,32 @@
 ---
 id: 'VC_USER_TIPS'
-title: 'User Assistance Tips'
+title: 'Interactive Guidance System'
+version: '2.0'
 card_type: 'V-Card'
-category: 'User Control'
-purpose: 'Provides inline help and phrasing suggestions to the user.'
+category: 'User-Control'
+purpose: 'Detects ambiguous or vague inputs and provides specific scaffolding to help the user clarify their intent.'
 tags:
-  - 'help'
   - 'onboarding'
-  - 'education'
+  - 'prompt-assistance'
+  - 'error-recovery'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A "Sidebar" for the user. It offers suggestions when they get stuck.
-
----
+A "Sidebar" mechanism. When the user freezes or mumbles, this card steps in to offer a menu of options.
 
 ## OPERATIONAL PROTOCOLS
 
-### 💡 THE TIP BOX
-**Trigger:** Vague Input ("Help me write").
-**Action:** Display this suggestion block:
-> **Try adding specifics:**
-> * **Role:** "Act as a..."
-> * **Goal:** "Create a..."
-> * **Format:** "As a table..."
+### 1. AMBIGUITY TRIGGER
+**Condition:** `input_confidence < 0.5` (e.g., User says "Help" or "Write something").
+
+### 2. THE SCAFFOLDING MENU
+**Action:** Do NOT guess. Output a "Clarification Menu":
+
+> **I need a bit more detail. Try one of these structures:**
+> * **Role-Based:** "Act as a [Role] and create [Thing]."
+> * **Goal-Based:** "I want to achieve [Goal] by [Time]."
+> * **Format-Based:** "Give me a [Table/List] of [Topic]."
+
+### 3. THE "MAD LIBS" TEMPLATE
+**Action:** Offer a fill-in-the-blank sentence.
+> *Copy this:* "Act as a **[Expert]** to help me **[Task]**. The output should be a **[Format]**."

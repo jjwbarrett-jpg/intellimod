@@ -1,32 +1,36 @@
 ---
 id: 'VC_OPT_CONSTRAINTS'
-title: 'Constraint Builder Protocol'
+title: 'Constraint Enforcement Protocol'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Optimization'
-purpose: 'Enforces strict boundaries on scope, tone, length, and content.'
+purpose: 'Injects strict boundary conditions (Length, Tone, Negative Constraints) and enforces failure if they cannot be met.'
 tags:
-  - 'constraints'
+  - 'compliance'
   - 'boundaries'
-  - 'scope-control'
+  - 'quality-control'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A "Fence Builder." It defines exactly what the AI CANNOT do.
-
----
+A "Fence Builder." It defines the "Negative Space" (what the AI *cannot* do).
 
 ## OPERATIONAL PROTOCOLS
 
-### 🚧 THE BOUNDARY BLOCK
-**Rule:** Every prompt must include a hard constraint list.
-```text
-<CONSTRAINTS>
-1. Length: Under 100 words.
-2. Tone: Professional, No Slang.
-3. Format: Bullet points only.
-4. Forbidden: Do not mention [Competitor X].
-</CONSTRAINTS>
+### 1. THE BOUNDARY BLOCK
+**System Action:** Inject this block at the end of the prompt:
+```xml
+<HARD_CONSTRAINTS>
+  1. [Constraint: e.g., Max 50 words]
+  2. [Constraint: e.g., No emojis]
+  3. [Constraint: e.g., JSON only]
+</HARD_CONSTRAINTS>
 ```
 
-🛑 VIOLATION CHECK
-Directive: If the input content makes it impossible to satisfy a constraint (e.g., "Summarize this 1000-word essay in 3 words"), FAIL and ask for a relaxed constraint.
+### 2. PRE-FLIGHT CHECK
+Directive: Before generating text, verify: "Can I satisfy ALL constraints?"
+
+If **Yes:** Execute.
+
+If **No:** (e.g., "Summarize this novel in 2 words"), FAIL immediately.
+
+Output: `{ "status": "constraint_violation", "issue": "impossible_constraint" }`

@@ -1,44 +1,54 @@
 ---
 id: 'VC_PLAN_INTENT'
-title: 'Intent Parsing Logic'
+title: 'Intent & Slot Parsing Logic'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Planning'
-purpose: 'Converts natural language into strict JSON parameters for tools.'
+purpose: 'Converts natural language into strict JSON parameters and identifies missing "Slots" (variables) required for execution.'
 tags:
-  - 'parsing'
-  - 'parameters'
+  - 'nlu'
+  - 'slot-filling'
+  - 'parameter-extraction'
   - 'tool-use'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A translation layer that turns "Human Speak" into "Machine Speak."
-
----
+A translation layer that turns "Human Speak" into "Machine Speak." It identifies **Intent** (Action) and **Slots** (Variables).
 
 ## OPERATIONAL PROTOCOLS
 
-### 🔍 PARSING RULES
-1.  **Extract:** Identify the Operation (e.g., "save_file") and Parameters (e.g., "filename").
-2.  **Validate:** Check against the Schema. Are all required fields present?
-3.  **Clarify:** If a field is missing, output a `clarifications` array instead of guessing.
+### 1. PARSING LOGIC
+1.  **Detect Intent:** Map user input to a specific Tool Function (e.g., "Schedule Meeting" -> `calendar_create_event`).
+2.  **Scan Slots:** specific tools require specific variables (Time, Date, Email). Check if they exist.
+3.  **Validate:** Are the variables in the right format? (e.g., Is the email valid?)
 
-### 📄 OUTPUT FORMAT
-**Success:**
+### 2. OUTPUT STATES
+
+**State A: Success (Ready to Run)**
 ```json
 {
-  "operation": "save_file",
-  "filename": "test.py",
-  "content": "print('hello')",
-  "status": "valid"
+  "status": "ready",
+  "intent": "calendar_create_event",
+  "confidence": 0.98,
+  "parameters": {
+    "title": "Meeting with Bob",
+    "time": "2025-11-26T14:00:00",
+    "attendees": ["bob@example.com"]
+  }
 }
 ```
 
-**Missing Info:**
-
+**State B: Missing Slots (Ask User)**
 ```json
 {
-  "operation": "save_file",
-  "clarifications": ["Missing 'filename'"],
-  "status": "incomplete"
+  "status": "input_required",
+  "intent": "calendar_create_event",
+  "missing_slots": ["time"],
+  "clarification_question": "What time would you like to schedule the meeting with Bob?"
 }
 ```
+
+### 3. AMBIGUITY HANDLING
+Rule: If multiple intents are possible, return status: "ambiguous" and list the options.
+
+Rule: Never guess a parameter (e.g., don't assume "tomorrow" means 9 AM unless specified).

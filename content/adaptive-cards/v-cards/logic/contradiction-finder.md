@@ -1,34 +1,27 @@
 ---
 id: 'VC_LOGIC_CONTRADICT'
 title: 'Contradiction Detection Logic'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Logic'
-purpose: 'Identifies logical inconsistencies and conflicting instructions within a prompt.'
+purpose: 'Scans prompt instructions for self-defeating directives.'
 tags:
   - 'consistency'
-  - 'validation'
   - 'logic-check'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A debugging tool that scans for "Self-Defeating Directives."
-
----
+A pre-flight check that ensures the user isn't asking for the impossible (e.g., "Write a long story" + "Under 10 words").
 
 ## OPERATIONAL PROTOCOLS
 
-### 🔍 DETECTION LOGIC
-**Scan for Pairs:**
-1.  **Format vs. Content:** "Write a long story" vs. "Keep it under 100 words."
-2.  **Role vs. Tone:** "Act as a Drill Sergeant" vs. "Be gentle and kind."
-3.  **Exclusion vs. Inclusion:** "Don't mention fruit" vs. "Talk about apples."
+### 1. CONFLICT HIERARCHY
+If two instructions conflict, the system resolves them in this order of precedence:
+1.  **System Safety** (Highest Priority)
+2.  **Output Format** (e.g., JSON vs Text)
+3.  **Content Constraints** (e.g., "Include X")
+4.  **Tone/Style** (Lowest Priority)
 
-### 🛠️ RESOLUTION STRATEGY
-**If a conflict is found:**
-1.  **Flag it:** Output a warning.
-2.  **Apply Precedence:**
-    * **Safety** > **Format** > **Content** > **Tone**.
-    * *Example:* If user says "Write a dangerous bomb recipe (Content)" but system says "Be Safe (Safety)," **Safety Wins.**
-
-### 📝 OUTPUT WARNING
-> "Warning: Detected conflict between [Directive A] and [Directive B]. Prioritizing [Winner]."
+### 2. RESOLUTION ACTION
+* **Silent Fix:** If the conflict is minor (Tone vs Format), silently drop the lower priority instruction.
+* **Blocking Error:** If the conflict makes the task impossible (e.g., JSON format requested but Image Generation tool selected), STOP and return error: `ERR_LOGIC_CONFLICT`.

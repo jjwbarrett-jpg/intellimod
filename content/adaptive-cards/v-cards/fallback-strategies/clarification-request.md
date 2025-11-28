@@ -1,34 +1,39 @@
 ---
 id: 'VC_FALLBACK_CLARIFY'
-title: 'Clarification Protocol'
+title: 'Ambiguity Resolution Protocol'
+version: '2.0'
 card_type: 'V-Card'
-category: 'Fallback Strategies'
-purpose: 'Pauses execution to ask the user for targeted clarification when input is ambiguous.'
+category: 'Fallback'
+purpose: 'Halts execution when input is ambiguous and generates a structured menu for user selection.'
 tags:
   - 'clarification'
-  - 'ambiguity'
   - 'error-recovery'
+  - 'interactive-menu'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A defensive protocol that stops the AI from guessing. If confidence is low, it triggers a "Clarification Loop."
-
----
+A defensive protocol. It stops the AI from hallucinating a choice when the user wasn't clear.
 
 ## OPERATIONAL PROTOCOLS
 
-### 🛑 THE STOP CONDITION
-**Trigger:** Execute this protocol if:
-1.  **Ambiguity:** The user request has multiple valid interpretations (e.g., "Run the report" - Which one?).
-2.  **Missing Data:** A required variable (Date, ID, Name) is absent.
-3.  **Low Confidence:** You are less than 80% sure of the intent.
+### 1. THE STOP CONDITION
+**Trigger:** * **Multiple Interpretations:** "Run the report" (Daily? Monthly?).
+* **Missing Variables:** "Send email to Bob" (Which Bob? What subject?).
+* **Low Confidence:** `< 80%` certainty.
 
-### ❓ THE CLARIFICATION FORMAT
-**Do not** just say "I don't understand."
-**Do** provide specific options:
-1.  **Echo:** State what you *did* understand. ("I can run a report for you...")
-2.  **Pinpoint:** Identify the missing piece. ("...but I need to know which type.")
-3.  **Option Menu:** Provide 2-3 likely choices. ("Are you looking for Sales, Engagement, or Performance?")
+### 2. THE CLARIFICATION MENU (JSON)
+**Action:** Output a structured request for data.
+```json
+{
+  "status": "clarification_needed",
+  "issue": "ambiguous_timeframe",
+  "message": "I can run the report, but I need to know the timeframe.",
+  "options": [
+    { "label": "Daily Report", "value": "report_daily" },
+    { "label": "Monthly Summary", "value": "report_monthly" }
+  ]
+}
+```
 
-### EXAMPLE OUTPUT
-> "I can help with that, but I need to narrow it down. Are you referring to **[Option A]** or **[Option B]**?"
+### 3. AUTOMATION BEHAVIOR
+**Constraint:** Do NOT guess. If you guess wrong, you waste tokens and confuse the user. It is better to ask.

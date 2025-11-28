@@ -1,28 +1,27 @@
 ---
 id: 'VC_SEC_ROLE_GATE'
 title: 'Role Access Control (ACL)'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Security'
-purpose: 'Ensures only authorized roles can trigger specific prompt chains.'
+purpose: 'Validates that the active user possesses the required capability tokens before proceeding.'
 tags:
   - 'acl'
-  - 'access-control'
   - 'permissions'
----
-
-## TECHNIQUE DESCRIPTION
-The "Bouncer" at the club. It checks if your ID allows you to enter the VIP section.
-
+  - 'auth-check'
 ---
 
 ## OPERATIONAL PROTOCOLS
 
-### 🛑 ACCESS CHECK
-**Before executing a chain, verify:**
-1.  **Caller Identity:** Who is asking? (e.g., "FrontendUser" vs. "SystemAdmin")
-2.  **Required Role:** What role is needed? (e.g., "Admin")
-3.  **Match:** Does Caller have Role?
+### 1. THE VERIFICATION CHECK
+**Input:** The system provides a `user_metadata` object.
+**Logic:**
+1.  Identify the **Required Role** for this task (e.g., `ACTION_DELETE` requires `ROLE_ADMIN`).
+2.  Scan `user_metadata.roles`.
+3.  **Result:**
+    * *Match:* Proceed silently.
+    * *No Match:* Output `{ "status": "DENIED", "reason": "Insufficient Permissions" }`.
 
-### ⛔ DENIAL RESPONSE
-If checks fail:
-> "Access Denied: Role [User] is not authorized to execute [AdminChain]."
+### 2. HIERARCHY RULE
+* `ROLE_ROOT` > `ROLE_ADMIN` > `ROLE_EDITOR` > `ROLE_USER`.
+* A user with `ROLE_ADMIN` automatically passes checks for `ROLE_USER`.

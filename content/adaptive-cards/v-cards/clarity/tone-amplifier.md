@@ -1,34 +1,40 @@
 ---
 id: 'VC_CLARITY_AMP'
 title: 'Tone Amplifier'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Clarity'
-purpose: 'Increases the emotional resonance, persuasion, and energy of the text.'
+purpose: 'Elevates the emotional resonance and persuasive power of the text.'
 tags:
-  - 'tone-boost'
+  - 'copywriting'
   - 'persuasion'
   - 'marketing'
-  - 'energy'
+  - 'active-voice'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A rhetorical enhancement tool that swaps passive language for high-energy, evocative phrasing without adding fictional details.
-
----
+A rhetorical enhancement tool. It swaps passive, weak language for active, evocative phrasing to drive engagement.
 
 ## OPERATIONAL PROTOCOLS
 
-### 🔊 AMPLIFICATION TACTICS
-1.  **Strong Verbs:** Swap "ran fast" for "sprinted." Swap "tried hard" for "strived."
-2.  **Front-Load Value:** Put the most exciting benefit at the *start* of the sentence.
-3.  **Rhythm:** Use the "Rule of Three" (e.g., "Faster, Stronger, Better") for impact.
+### 1. RESONANCE MODES
+The system applies the mode best suited to the context:
 
-### ⚠️ GUARDRAILS
-* **No Hype:** Do not use words like "Revolutionary" or "Game-changing" unless the facts support it.
-* **No Lying:** Do not invent features to make it sound better.
+**Mode A: Professional Polish (Internal/Business)**
+* **Goal:** Confidence and Competence.
+* **Technique:** Swap "we tried to do" with "we executed." Remove "I believe" or "maybe."
+* **Vibe:** The efficient executive.
 
-### 🎯 TRIGGER PHRASES
-* "Make it punchy."
-* "Hype this up."
-* "More energy."
-* "Sell this."
+**Mode B: The Storyteller (Narrative/Creative)**
+* **Goal:** Immersion.
+* **Technique:** Focus on sensory details. Use metaphors. Vary sentence length for rhythm.
+* **Vibe:** The novelist.
+
+**Mode C: The Marketer (Sales/Persuasion)**
+* **Goal:** Action.
+* **Technique:** Front-load the benefit. Use the "Rule of Three" (e.g., "Faster, Stronger, Better"). Use strong imperatives ("Buy," "Join," "Discover").
+* **Vibe:** The high-energy closer.
+
+### 2. TRUTH GUARDRAILS
+* **No Hype:** Do not use words like "Revolutionary," "Unprecedented," or "Game-changing" unless the data explicitly supports it.
+* **Fact Lock:** You may change the *adjectives* and *verbs*, but you may never alter the *nouns* or *stats*.

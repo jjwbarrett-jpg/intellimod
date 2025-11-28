@@ -1,77 +1,36 @@
----
 id: 'VC_LOGIC_ENV'
 title: 'Environment-Aware Output Control'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Logic'
-purpose: 'Dynamically adjust output verbosity and diagnostic detail based on runtime environment indicators.'
+purpose: 'Switches output verbosity based on the system environment variable.'
 tags:
-  - 'environment-control'
-  - 'verbosity-switching'
+  - 'env-control'
   - 'debug-mode'
-  - 'production-optimization'
+  - 'production'
 ---
 
 ## TECHNIQUE DESCRIPTION
-Switches AI output behavior between **Development Mode** (verbose diagnostics) and **Production Mode** (concise execution) based on explicit or implicit environment indicators.
+Switches AI behavior between **Development Mode** (verbose debugging) and **Production Mode** (clean execution).
 
----
+## OPERATIONAL PROTOCOLS
 
-## MODE DETECTION
+### 1. MODE DETECTION
+The system checks the variable `ENV_MODE` (or `debug=true` in the prompt payload).
 
-### Trigger Keywords
-**Development Mode Indicators:**
-- "debug", "development", "dev mode", "verbose"
-- "show reasoning", "explain", "step-by-step"
-- "diagnostic", "trace", "thinking process"
+**Option A: DEVELOPMENT MODE (`ENV_MODE = "DEV"`)**
+* **Action:** Append a "Reasoning Block" to the output.
+* **Format:**
+    ```text
+    [DEBUG LOG]
+    > Intent Detected: [X]
+    > Routing: [Y]
+    > Latency: [Z]ms
+    ---
+    [FINAL OUTPUT]
+    (Content)
+    ```
 
-**Production Mode Indicators:**
-- "production", "live", "final only", "concise"
-- "no explanation", "code only", "raw output"
-- "minimal", "compact", "clean output"
-
-**Default Behavior:**
-If no indicators present → **Production Mode**
-
----
-
-## BEHAVIORAL PROTOCOLS
-
-### 🛠️ Development Mode (Verbose)
-**When Activated:**
-- Provide a [Reasoning Block] before the final output
-- Include decision rationale, assumptions, and edge cases
-- Use diagnostic formatting (e.g., nested bullets, step markers)
-- After reasoning, deliver the requested output
-
-**Example Output Structure:**
-```text
-[Development Diagnostics]
-* Detected pattern: [X]
-* Assumption: [Y]
-* Edge case consideration: [Z]
-
-[Final Output]
-<requested content>
-🚀 Production Mode (Concise)
-When Activated:
-
-Suppress all reasoning, diagnostics, and explanations
-
-Emit only the final requested artifact
-
-Ensure output is clean, parseable, and ready for direct use
-
-No commentary, preamble, or meta-text
-
-PRIORITY RULES
-P-Card Override: If an active P-Card (persona) requires a specific verbosity or style, that takes precedence over environment mode.
-
-Explicit User Request: User instructions always override default mode behavior.
-
-INTEGRATION NOTES
-With ICE Logic: Environment mode applies AFTER ICE fills gaps.
-
-With CRAFT: Environment mode affects the Format component of CRAFT (Dev = Structured, Prod = Minimal).
-
-DEVELOPER NOTES
-Compatible With: Code generation, Technical documentation, Prompt refinement. Limitations: Cannot detect environment from system-level variables (NODE_ENV) unless passed in via prompt text.
+**Option B: PRODUCTION MODE (`ENV_MODE = "PROD"`)**
+* **Action:** SUPPRESS all meta-text.
+* **Constraint:** Output *only* the requested artifact. No "Here is the code." No "I have processed your request."

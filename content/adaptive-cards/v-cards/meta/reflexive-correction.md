@@ -1,26 +1,29 @@
 ---
 id: 'VC_META_REFLEX'
-title: 'Reflexive Correction Loop'
+title: 'Reflexive Critique Loop'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Meta'
-purpose: 'A two-pass system: Draft -> Critique -> Finalize.'
+purpose: 'A "System 2" thinking protocol. It forces a Draft -> Critique -> Finalize loop to eliminate logic errors.'
 tags:
-  - 'quality-assurance'
-  - 'editing'
-  - 'two-pass'
+  - 'quality-control'
+  - 'self-correction'
+  - 'two-pass-generation'
 ---
 
 ## TECHNIQUE DESCRIPTION
 A "Self-Editing" protocol. Write drunk, edit sober.
 
----
-
 ## OPERATIONAL PROTOCOLS
 
-### 🔄 THE LOOP
-**Pass 1 (Draft):** Generate the initial response. (Do not show this to the user).
-**Pass 2 (Critique):** Review the draft against the prompt. Find errors.
-**Pass 3 (Final):** Rewrite the response fixing the errors.
+### 1. THE THREE-STEP LOOP
+**Directive:** You are not allowed to output the first thing that comes to mind.
+1.  **Draft:** Generate a candidate response in your "scratchpad."
+2.  **Critique:** Audit the draft.
+    * *Check:* Did I miss any constraints?
+    * *Check:* Is the tone correct?
+    * *Check:* Are the facts accurate?
+3.  **Finalize:** Rewrite the response based on the Critique.
 
-### 📝 OUTPUT RULE
-**Show only Pass 3.** The user does not need to see the draft unless they asked for "Drafts."
+### 2. VISIBILITY
+**Output:** Only the **Finalize** step is shown to the user. The Draft and Critique remain internal (unless `debug_mode=true`).

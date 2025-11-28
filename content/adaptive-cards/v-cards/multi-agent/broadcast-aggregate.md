@@ -1,29 +1,34 @@
 ---
 id: 'VC_AGENT_BROADCAST'
 title: 'Broadcast & Aggregate Protocol'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Multi-Agent'
-purpose: 'Runs parallel agents on the same problem and merges the results.'
+purpose: 'Prepares a task to be processed in parallel by multiple distinct agents (Map-Reduce).'
 tags:
-  - 'parallel'
+  - 'parallel-processing'
   - 'consensus'
   - 'voting'
 ---
 
 ## TECHNIQUE DESCRIPTION
-The "Committee Meeting." Ask 3 experts, then write one summary.
-
----
+The "Committee Vote." It generates the JSON array needed to trigger 3 parallel API calls in n8n.
 
 ## OPERATIONAL PROTOCOLS
 
-### 📡 PHASE 1: BROADCAST
-**Action:** Send the same prompt to 3 distinct personas.
-1.  **Skeptic:** "Find all the flaws."
-2.  **Optimist:** "Find all the benefits."
-3.  **Realist:** "Find the costs."
+### 1. THE SPLIT (Broadcast)
+**Input:** Single User Prompt.
+**Action:** Generate the Task Array.
 
-### 🔗 PHASE 2: AGGREGATE
-**Action:** Synthesize the 3 outputs.
-* **Conflict Resolution:** If Skeptic and Optimist disagree, list *both* views as a trade-off.
-* **Output:** A balanced report covering Pros, Cons, and Costs.
+```json
+{
+  "broadcast_tasks": [
+    { "role": "security_expert", "prompt": "Analyze [Input] for risks." },
+    { "role": "efficiency_expert", "prompt": "Analyze [Input] for speed." },
+    { "role": "cost_expert", "prompt": "Analyze [Input] for budget." }
+  ]
+}
+```
+
+### 2. THE MERGE (Aggregate)
+**Note:** This runs after the agents return. **Input:** 3 separate analysis texts. **Action:** Synthesize into one "Final Executive Summary" highlighting the trade-offs.

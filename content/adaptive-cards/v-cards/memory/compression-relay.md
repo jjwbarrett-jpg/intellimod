@@ -1,33 +1,35 @@
 ---
 id: 'VC_MEM_COMPRESS'
 title: 'Context Compression Engine'
+version: '2.0'
 card_type: 'V-Card'
 category: 'Memory'
-purpose: 'Shrinks large text blocks into compact "Recall Keys" to save tokens.'
+purpose: 'Summarizes extensive conversation logs into token-efficient "Recall Keys" without losing critical logic.'
 tags:
-  - 'compression'
   - 'summarization'
   - 'token-optimization'
+  - 'context-management'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A "Zip File" for text. It turns 1000 words into 50 words.
-
----
+A "Lossless Compression" attempt for text. It creates a map between a short Key and a long Summary.
 
 ## OPERATIONAL PROTOCOLS
 
-### 🗜️ COMPRESSION ALGORITHM
-**Input:** Long Text.
-**Output:** JSON Object.
+### 1. COMPRESSION LOGIC
+**Input:** Raw Text Block (>1000 tokens).
+**Action:** Extract the **Logic**, discard the **Fluff**.
+
+**Output JSON:**
 ```json
 {
-  "recall_key": "project-alpha-v1",
-  "summary": "[3-bullet summary of key decisions]",
-  "open_questions": ["[Question 1]", "[Question 2]"],
-  "sources": ["doc-1.md"]
+  "recall_key": "meeting_notes_v1",
+  "compression_ratio": "80%",
+  "critical_facts": ["Budget is $5k", "Deadline is Friday"],
+  "summary": "[Concise narrative summary]",
+  "status": "valid"
 }
 ```
 
-💧 REHYDRATION INSTRUCTION
-Directive: When you see a recall_key, expand it back into the full context using the stored summary.
+### 2. THE REHYDRATION RULE
+**Directive:** If you encounter `recall_key: meeting_notes_v1` in a future prompt, treat the `critical_facts` as absolute truth. Do not hallucinate details that were discarded.

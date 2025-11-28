@@ -1,34 +1,41 @@
 ---
 id: 'VC_FALLBACK_RETRY'
-title: 'Stateful Retry Logic'
+title: 'Stateful Smart-Retry Logic'
+version: '2.0'
 card_type: 'V-Card'
-category: 'Fallback Strategies'
-purpose: 'Recovers from single-step failures by retrying only the failed component.'
+category: 'Fallback'
+purpose: 'Recovers from step failures by analyzing the error code and adjusting the strategy for the next attempt.'
 tags:
-  - 'retry-logic'
-  - 'persistence'
-  - 'workflow'
+  - 'self-healing'
+  - 'debugging'
+  - 'loop-handling'
 ---
 
 ## TECHNIQUE DESCRIPTION
-A smart retry mechanism that saves progress (Checkpoints) so failures don't restart the whole job.
-
----
+A "Smart Retry" mechanism. It assumes that doing the exact same thing twice will result in the same error.
 
 ## OPERATIONAL PROTOCOLS
 
-### 💾 CHECKPOINTING
-**Rule:** After every successful Step (e.g., Step 1 Complete), save the state.
-* **Snapshot:** `{ "completed_steps": [1], "current_data": {...} }`
+### 1. THE CHECKPOINT RULE
+**Input:** The system provides `{ "last_error": "...", "attempt_count": 2 }`.
 
-### 🔄 RETRY STRATEGY
-**Trigger:** Step 2 Fails.
-**Action:**
-1.  **Load Snapshot:** Reload data from Step 1.
-2.  **Adjust Parameters:** Increase timeout OR simplify the prompt.
-3.  **Re-Run Step 2 ONLY:** Do not re-run Step 1.
+### 2. STRATEGY ADJUSTMENT LOGIC
+**Action:** Before generating the retry, analyze the error:
 
-### ⛔ LIMITS
-* **Max Retries:** 3 Attempts.
-* **Backoff:** Wait 1s, then 2s, then 4s between attempts.
-* **Final Failure:** If Attempt 3 fails, trigger [VC_FALLBACK_DEGRADE].
+* **Error: SyntaxError** -> **Fix:** Rewrite code with syntax correction.
+* **Error: RateLimit** -> **Fix:** Reduce request size/tokens.
+* **Error: ModuleNotFound** -> **Fix:** Switch to a standard library alternative.
+
+### 3. THE RETRY SIGNAL
+**Output:**
+```json
+{
+  "status": "retrying",
+  "attempt": 2,
+  "strategy_change": "Switching from 'pandas' to 'csv' module due to import error.",
+  "new_payload": "[Adjusted Code/Prompt]"
+}
+```
+
+### 4. THE GIVE-UP CONDITION
+**Constraint:** If `attempt_count` > 3, stop and trigger VC_FALLBACK_DEGRADE (Tier 2).
