@@ -3,7 +3,7 @@ id: 'VC_CREATIVE_CONTRAST'
 title: 'Lateral Thinking Engine'
 version: '2.0'
 card_type: 'V-Card'
-category: 'Creativity'
+category: 'Creative'
 purpose: 'Systematically deconstructs and inverts core assumptions to generate novel solutions.'
 tags:
   - 'inversion'

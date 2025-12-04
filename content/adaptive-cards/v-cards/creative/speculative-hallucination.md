@@ -3,7 +3,7 @@ id: 'VC_CREATIVE_FICTION'
 title: 'Speculative Hallucination Engine'
 version: '2.0'
 card_type: 'V-Card'
-category: 'Creativity'
+category: 'Creative'
 purpose: 'Intentionally loosens factuality constraints to generate counterfactuals, sci-fi scenarios, and impossible designs.'
 tags:
   - 'ideation'

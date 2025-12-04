@@ -3,7 +3,7 @@ id: 'VC_CREATIVE_BLEND'
 title: 'Style Fusion Engine'
 version: '2.0'
 card_type: 'V-Card'
-category: 'Creativity'
+category: 'Creative'
 purpose: 'Synthesizes two distinct styles, genres, or concepts into a unified hybrid voice.'
 tags:
   - 'fusion'

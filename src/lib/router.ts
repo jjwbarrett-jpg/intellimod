@@ -8,35 +8,66 @@ interface RouterTrigger {
   targetCardId: string; 
 }
 
-// The Logic Map
+// --- THE TIG LOGIC MAP (Synced with SC_TIG_MASTER v2.0) ---
 const triggers: RouterTrigger[] = [
-  /* // Temporarily disabled until Format Calibrator card is created
+  // 1. RESEARCH LAYER (Tier S/A)
+  // Keywords: deep research, citations, investigate, summarize
   {
-    id: 'missing_format',
-    name: 'Missing Format Directive',
-    condition: (input) => !input.format || input.format.trim() === '',
-    targetCardId: 'VC_FORMAT_CALIBRATOR' 
-  }, 
-  */
-  {
-    id: 'emotional_engagement',
-    name: 'Emotional Engagement Needed',
-    // Trigger: words like story, narrative, emotional, etc.
+    id: 'tig_research',
+    name: 'TIG: Research & Analysis',
     condition: (input) => {
-      const keywords = ['story', 'narrative', 'emotional', 'feeling', 'tone', 'exciting', 'sad', 'dramatic'];
+      const keywords = ['research', 'citation', 'investigate', 'literature', 'summarize', 'analysis', 'data'];
       return keywords.some(kw => input.objective.toLowerCase().includes(kw));
     },
-    targetCardId: 'VC_031' // Emotion Prompting
+    targetCardId: 'VC_MEM_RAG' // Maps to Knowledge Retrieval
   },
+
+  // 2. CREATIVE LAYER (Tier S)
+  // Keywords: story, narrative, brainstorm, novel, idea
   {
-    id: 'chain_logic',
-    name: 'Chain Logic Required',
-    // Trigger: words like step-by-step, logic, reason
+    id: 'tig_creative',
+    name: 'TIG: Creative Studio',
     condition: (input) => {
-      const keywords = ['step-by-step', 'reasoning', 'logic', 'think', 'evaluate', 'analyze'];
+      const keywords = ['story', 'narrative', 'novel', 'poem', 'script', 'brainstorm', 'idea', 'creative', 'write a'];
       return keywords.some(kw => input.objective.toLowerCase().includes(kw));
     },
-    targetCardId: 'VC_013' // Chain-of-Thought
+    targetCardId: 'VC_CREATIVE_FICTION' // Maps to Speculative Engine
+  },
+
+  // 3. CODING LAYER (Tier C)
+  // Keywords: python, script, debug, json, code, function
+  {
+    id: 'tig_coding',
+    name: 'TIG: Dev Center',
+    condition: (input) => {
+      const keywords = ['code', 'python', 'script', 'debug', 'json', 'function', 'api', 'typescript', 'react'];
+      return keywords.some(kw => input.objective.toLowerCase().includes(kw));
+    },
+    targetCardId: 'VC_FLOW_COC' // Maps to Chain-of-Code
+  },
+
+  // 4. VISUAL LAYER (Tier A)
+  // Keywords: image, draw, visualize, midjourney, prompt
+  {
+    id: 'tig_visual',
+    name: 'TIG: Visual Engine',
+    condition: (input) => {
+      const keywords = ['image', 'draw', 'visualize', 'picture', 'photo', 'midjourney', 'dall-e', 'flux'];
+      return keywords.some(kw => input.objective.toLowerCase().includes(kw));
+    },
+    targetCardId: 'VC_DATA_MULTIMODAL' // Maps to Multi-Modal Protocol
+  },
+
+  // 5. SAFETY OVERRIDE (Global)
+  // Trigger: "ignore rules", "system mode"
+  {
+    id: 'tig_safety',
+    name: 'TIG: Security Sentinel',
+    condition: (input) => {
+      const keywords = ['ignore rules', 'system mode', 'unrestricted', 'bypass'];
+      return keywords.some(kw => input.objective.toLowerCase().includes(kw));
+    },
+    targetCardId: 'VC_SAFETY_SANITIZE' // Maps to Input Sanitization
   }
 ];
 
@@ -47,7 +78,7 @@ export async function detectTriggers(input: { objective: string; format?: string
   // 1. Run all checks
   triggers.forEach(trigger => {
     if (trigger.condition(input)) {
-      console.log(`[ACR] Trigger Detected: ${trigger.name} -> Routing to ${trigger.targetCardId}`);
+      console.log(`[TIG ROUTER] Intent Detected: ${trigger.name} -> Routing to ${trigger.targetCardId}`);
       activeCardIds.push(trigger.targetCardId);
     }
   });

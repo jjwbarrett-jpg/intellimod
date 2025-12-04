@@ -1,7 +1,7 @@
 ---
 id: 'SC_TIG_MASTER'
 title: 'Task Intelligence Graph (TIG)'
-version: '2.0.FINAL'
+version: '2.1.STANDARD'
 card_type: 'S-Card'
 category: 'Logic'
 purpose: 'Central Brain. Routes tasks to specific AI models and enforces a FIFO queue to prevent context collision.'
@@ -36,19 +36,20 @@ The TIG serves two roles:
   * `gpt-4o-mini`
   * `gemini-nano` (Local/Edge tasks)
 
-### 2. ROUTING LOGIC TABLE
+### 2. ROUTING LOGIC TABLE (Standardized Taxonomy)
 **System Action:** Parse input -> Assign Intent -> Route to Workflow.
 
-| Category | Intent Tag | Keywords | Tier | Workflow ID |
-| :--- | :--- | :--- | :--- | :--- |
-| **Research** | `research_deep` | deep research, investigate, citations, literature review | **Tier S** | `WF_RESEARCH_DOCLING` |
-| **Research** | `analysis_summary` | summarize, tl;dr, bullet points, extract data | **Tier A** | `WF_CONTENT_SUMMARY` |
-| **Creative** | `creative_story` | story, narrative, scene, chapter, novel | **Tier S** | `WF_CREATIVE_ASSEMBLER` |
-| **Creative** | `creative_concept` | brainstorm, ideas, what if, imagine | **Tier S** | `WF_CREATIVE_ASSEMBLER` |
-| **Coding** | `coding_architect` | architecture, system design, refactor, complex logic | **Tier S** | `WF_DEV_ARCHITECT` |
-| **Coding** | `coding_script` | python script, fix bug, write function, regex | **Tier A** | `WF_DEV_vbSCRIPT` |
-| **Visual** | `visual_prompt` | generate image prompt, midjourney, flux description | **Tier S** | `WF_IMAGE_PROMPTER` |
-| **Visual** | `visual_describe` | describe this image, what do you see | **Tier S** | `WF_VISION_ANALYSIS` |
+| Domain.Task | Keywords | Tier | Workflow ID |
+| :--- | :--- | :--- | :--- |
+| **`knowledge.research`** | deep research, investigate, citations, literature review | **Tier S** | `WF_RESEARCH_DOCLING` |
+| **`knowledge.summarization`** | summarize, tl;dr, bullet points, extract data | **Tier A** | `WF_CONTENT_SUMMARY` |
+| **`creative.generation`** | story, narrative, scene, chapter, novel, poem | **Tier S** | `WF_CREATIVE_ASSEMBLER` |
+| **`creative.brainstorming`** | brainstorm, ideas, what if, imagine, concept | **Tier S** | `WF_CREATIVE_ASSEMBLER` |
+| **`programming.architecture`** | architecture, system design, refactor, complex logic | **Tier S** | `WF_DEV_ARCHITECT` |
+| **`programming.scripting`** | python script, fix bug, write function, regex | **Tier A** | `WF_DEV_SCRIPT` |
+| **`multimodal.image_generation`** | generate image prompt, midjourney, flux description | **Tier S** | `WF_IMAGE_PROMPTER` |
+| **`multimodal.vision_analysis`** | describe this image, what do you see, analyze chart | **Tier S** | `WF_VISION_ANALYSIS` |
+| **`safety.moderation`** | ignore rules, system mode, bypass, jailbreak | **BLOCK** | `WF_SECURITY_SENTINEL` |
 
 ### 3. THE CONTEXT QUEUE (FIFO)
 **Critical Automation Rule:**
@@ -61,7 +62,7 @@ To prevent overlapping processes in n8n:
 3.  **Execute:** Run the routed Sub-Workflow.
 4.  **Release:** On completion/error, set `tig_active_lock = False`.
 
-### 4. FLUX PARSER INTEGRATION
+### 4. INTENT_COMMAND_PARSER
 * **Input:** Raw User String.
 * **Action:** Extract "Command Verbs" (e.g., *Visualize, Summarize*).
-* **Output:** JSON Object `{ "intent": "visual_prompt", "priority": "normal" }` passed to TIG.
+* **Output:** JSON Object `{ "intent": "multimodal.image_generation", "priority": "normal" }` passed to TIG.

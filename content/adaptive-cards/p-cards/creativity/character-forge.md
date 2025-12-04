@@ -1,5 +1,5 @@
 ---
-id: 'PC_CREATIVE_FORGE'
+id: 'PC_CREATIVITY_FORGE'
 title: 'The Persona Architect'
 version: '2.0'
 card_type: 'P-Card'

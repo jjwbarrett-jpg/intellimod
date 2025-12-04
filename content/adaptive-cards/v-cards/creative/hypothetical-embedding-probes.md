@@ -3,7 +3,7 @@ id: 'VC_CREATIVE_PROBE'
 title: 'Conceptual Latent Probe'
 version: '2.0'
 card_type: 'V-Card'
-category: 'Creativity'
+category: 'Creative'
 purpose: 'Reveals the hidden depth of a concept by generating hypothetical variants, inverses, and analogies.'
 tags:
   - 'ideation'

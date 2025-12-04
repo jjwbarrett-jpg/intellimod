@@ -3,7 +3,7 @@ id: 'VC_CREATIVE_ABSTRACT'
 title: 'Abstract Thought Modeling'
 version: '2.0'
 card_type: 'V-Card'
-category: 'Creativity'
+category: 'Creative'
 purpose: 'Simulates high-level philosophical reasoning to generate metaphors, analogies, and conceptual syntheses.'
 tags:
   - 'ideation'
